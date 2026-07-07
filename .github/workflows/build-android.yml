@@ -1,0 +1,53 @@
+name: Build Android APK (TWA)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. Install JDK 17 (Required by Bubblewrap)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 4. Install Bubblewrap CLI
+      - name: Install Bubblewrap
+        run: npm install -g @bubblewrap/cli
+
+      # 5. Non-Interactively Configure Bubblewrap Paths
+      - name: Configure Bubblewrap Paths
+        run: |
+          bubblewrap updateConfig --jdkPath="${{ env.JAVA_HOME }}" --androidSdkPath="${{ env.ANDROID_HOME }}"
+
+      # 6. Build the Signed APK/AAB
+      # (Ensure you add secrets to your GitHub repository settings!)
+      - name: Build APK
+        env:
+          BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.PLAY_STORE_KEYSTORE_PASSWORD }}
+          BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.PLAY_STORE_KEY_PASSWORD }}
+        run: |
+          bubblewrap build
+
+      # 7. Upload the generated APK as a workflow artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: ./*.apk
