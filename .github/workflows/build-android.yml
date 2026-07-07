@@ -1,0 +1,68 @@
+name: Build Android App (Bubblewrap TWA)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      - name: Build Frontend Assets
+        run: npm run build
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      - name: Configure Bubblewrap paths
+        run: |
+          bubblewrap updateConfig --jdkPath="${JAVA_HOME}" --androidSdkPath="${ANDROID_HOME}"
+
+      - name: Decode Android Keystore
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android.keystore
+
+      - name: Build Android App (APK / AAB)
+        env:
+          BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -f "android.keystore" ]; then
+            echo "Building signed release with user keystore..."
+            bubblewrap build --signingKeyStorePassword="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" --signingKeyPassword="${{ secrets.ANDROID_KEY_PASSWORD }}"
+          else
+            echo "Building unsigned/debug build (No keystore secret provided)..."
+            yes | bubblewrap build || true
+          fi
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-app-build
+          path: |
+            *.apk
+            *.aab
+          if-no-files-found: error
