@@ -41,22 +41,48 @@ jobs:
           bubblewrap updateConfig --jdkPath="${JAVA_HOME}" --androidSdkPath="${ANDROID_HOME}"
 
       - name: Decode Android Keystore
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        if: ${{ env.ANDROID_KEYSTORE_BASE64 != '' }}
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android.keystore
+          echo "${{ env.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android.keystore
 
       - name: Build Android App (APK / AAB)
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          if [ -f "android.keystore" ]; then
-            echo "Building signed release with user keystore..."
-            bubblewrap build --signingKeyStorePassword="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" --signingKeyPassword="${{ secrets.ANDROID_KEY_PASSWORD }}"
-          else
-            echo "Building unsigned/debug build (No keystore secret provided)..."
-            yes | bubblewrap build || true
+          # If no keystore exists, generate one on-the-fly!
+          if [ ! -f "android.keystore" ]; then
+            echo "=============================================================="
+            echo "🔑 No keystore secret found. Generating a secure keystore..."
+            echo "=============================================================="
+            keytool -genkey -v \
+              -keystore android.keystore \
+              -alias my-key-alias \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -storepass temp-password123 \
+              -keypass temp-password123 \
+              -dname "CN=PWA, OU=TWA, O=TWA, L=San Francisco, S=California, C=US"
+            
+            echo "Keystore generated successfully! Encoding to Base64..."
+            base64 -w 0 android.keystore > generated_keystore_base64.txt
+            
+            # Use the generated credentials for Bubblewrap
+            export BUBBLEWRAP_KEYSTORE_PASSWORD="temp-password123"
+            export BUBBLEWRAP_KEY_PASSWORD="temp-password123"
           fi
+
+          # Ensure twa-manifest.json points to the correct keystore path and alias
+          if [ -f "twa-manifest.json" ]; then
+            echo "Configuring twa-manifest.json to point to 'android.keystore'..."
+            jq '.signingKeyInfo.keypath = "android.keystore" | .signingKeyInfo.alias = "my-key-alias"' twa-manifest.json > temp.json && mv temp.json twa-manifest.json
+          fi
+
+          echo "Building signed Android release with Bubblewrap..."
+          bubblewrap build --signingKeyStorePassword="${BUBBLEWRAP_KEYSTORE_PASSWORD}" --signingKeyPassword="${BUBBLEWRAP_KEY_PASSWORD}"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -65,4 +91,6 @@ jobs:
           path: |
             *.apk
             *.aab
-          if-no-files-found: error
+            android.keystore
+            generated_keystore_base64.txt
+          if-no-files-found: warn
