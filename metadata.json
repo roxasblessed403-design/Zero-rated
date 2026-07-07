@@ -1,0 +1,6 @@
+{
+  "name": "Zero-Rated Web Browser",
+  "description": "A secure web portal and proxy browser dedicated to zero-rated educational websites like Siyavula Mathematics, Siyavula Science, Wikipedia, and other math/science learning resources.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
