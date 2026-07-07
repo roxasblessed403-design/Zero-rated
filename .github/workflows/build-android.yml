@@ -38,7 +38,7 @@ jobs:
 
       - name: Configure Bubblewrap paths
         run: |
-          bubblewrap updateConfig --jdkPath="${JAVA_HOME}" --androidSdkPath="${ANDROID_HOME}"
+          yes "n" | bubblewrap updateConfig --jdkPath="${JAVA_HOME}" --androidSdkPath="${ANDROID_HOME}"
 
       - name: Decode Android Keystore
         if: ${{ env.ANDROID_KEYSTORE_BASE64 != '' }}
