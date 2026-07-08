@@ -163,41 +163,41 @@ export default function BrowserView({
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-64px)] overflow-hidden bg-slate-950" id="browser-view">
+    <div className="flex flex-col h-[calc(100vh-64px)] overflow-hidden bg-slate-50" id="browser-view">
       
       {/* Top Browser Toolbar */}
-      <div className="bg-slate-900/80 backdrop-blur text-white p-4 border-b border-white/5 flex flex-col md:flex-row items-center gap-4 shrink-0 select-none">
+      <div className="bg-white text-slate-800 p-4 border-b border-slate-200 flex flex-col md:flex-row items-center gap-4 shrink-0 select-none">
         
         {/* Navigation Buttons */}
         <div className="flex items-center gap-2">
           <button
             onClick={onGoHome}
             title="Back to Portal Home"
-            className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-white/10 text-slate-300 hover:text-white transition-all"
+            className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-all"
           >
             <Home className="w-4 h-4" />
           </button>
           
-          <div className="h-5 w-[1px] bg-white/10 mx-1" />
+          <div className="h-5 w-[1px] bg-slate-200 mx-1" />
 
           <button
             onClick={handleBack}
             title="Back"
-            className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-white/10 text-slate-300 hover:text-white transition-all"
+            className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <button
             onClick={handleForward}
             title="Forward"
-            className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-white/10 text-slate-300 hover:text-white transition-all"
+            className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-all"
           >
             <ArrowRight className="w-4 h-4" />
           </button>
           <button
             onClick={handleRefresh}
             title="Reload page"
-            className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-white/10 text-slate-300 hover:text-white transition-all"
+            className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-all"
           >
             <RotateCw className="w-4 h-4" />
           </button>
@@ -205,20 +205,20 @@ export default function BrowserView({
 
         {/* Address Input Bar */}
         <form onSubmit={handleAddressSubmit} className="flex-1 w-full relative">
-          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold uppercase tracking-widest bg-emerald-500/20 px-2.5 py-1 rounded-full border border-emerald-500/30">
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-[10px] text-slate-700 font-bold uppercase tracking-widest bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
+            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(100,116,139,0.3)]" />
             <span>Zeroed</span>
           </div>
           <input
             type="text"
             value={addressInput}
             onChange={(e) => setAddressInput(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 hover:border-white/15 focus:border-emerald-500/50 rounded-full py-2.5 pl-24 pr-10 outline-none text-xs text-slate-200 placeholder-slate-600 font-mono shadow-inner transition-all"
+            className="w-full bg-slate-50 border border-slate-200 hover:border-slate-350 focus:border-slate-400 rounded-full py-2.5 pl-24 pr-10 outline-none text-xs text-slate-800 placeholder-slate-400 font-mono transition-all"
             placeholder="Enter learning link..."
           />
           <button
             type="submit"
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -229,46 +229,46 @@ export default function BrowserView({
           <button
             onClick={handleClipPage}
             title="Clip notes from this educational page"
-            className="text-xs bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 px-4 py-2.5 rounded-xl flex items-center gap-2 font-bold transition-all cursor-pointer"
+            className="text-xs bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl flex items-center gap-2 font-semibold transition-all cursor-pointer"
           >
             <Save className="w-4 h-4" />
             <span className="hidden lg:inline">Clip Page</span>
           </button>
 
-          <div className="h-6 w-[1px] bg-white/10 mx-1" />
+          <div className="h-6 w-[1px] bg-slate-200 mx-1" />
 
           {/* Sidebar Tab Triggers */}
           <button
             onClick={() => setSidebarTab(sidebarTab === 'tutor' ? null : 'tutor')}
             className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all border cursor-pointer ${
               sidebarTab === 'tutor' 
-                ? 'bg-amber-500/20 text-amber-400 border-amber-500/30 font-bold shadow-[0_0_12px_rgba(245,158,11,0.1)]' 
-                : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
+                ? 'bg-slate-900 text-white border-slate-900 font-bold' 
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
             }`}
           >
-            <GraduationCap className="w-4 h-4 text-amber-400" />
+            <GraduationCap className="w-4 h-4" />
             <span>AI Tutor</span>
           </button>
           <button
             onClick={() => setSidebarTab(sidebarTab === 'notes' ? null : 'notes')}
             className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all border cursor-pointer ${
               sidebarTab === 'notes' 
-                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30 font-bold shadow-[0_0_12px_rgba(16,185,129,0.1)]' 
-                : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
+                ? 'bg-slate-900 text-white border-slate-900 font-bold' 
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
             }`}
           >
-            <FileText className="w-4 h-4 text-emerald-400" />
+            <FileText className="w-4 h-4" />
             <span>Study Notes</span>
           </button>
           <button
             onClick={() => setSidebarTab(sidebarTab === 'drive' ? null : 'drive')}
             className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all border cursor-pointer ${
               sidebarTab === 'drive' 
-                ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30 font-bold shadow-[0_0_12px_rgba(99,102,241,0.1)]' 
-                : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/5'
+                ? 'bg-slate-900 text-white border-slate-900 font-bold' 
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
             }`}
           >
-            <Cloud className="w-4 h-4 text-indigo-400" />
+            <Cloud className="w-4 h-4" />
             <span>Drive Backup</span>
           </button>
         </div>
@@ -278,12 +278,12 @@ export default function BrowserView({
       <div className="flex-1 flex overflow-hidden relative">
         
         {/* Sandbox Content Area */}
-        <div className="flex-1 h-full bg-slate-950 relative flex flex-col">
+        <div className="flex-1 h-full bg-slate-100 relative flex flex-col">
           
           {/* Subtle Banner Showing current Page Title */}
-          <div className="bg-slate-900 border-b border-white/5 px-4 py-2.5 text-xs text-slate-400 font-medium flex items-center justify-between select-none shrink-0">
-            <span className="truncate">Browsing educational portal: <strong className="text-emerald-400">{pageTitle}</strong></span>
-            <span className="font-mono text-[10px] text-slate-500 truncate max-w-[200px]">{currentUrl}</span>
+          <div className="bg-slate-100 border-b border-slate-200 px-4 py-2.5 text-xs text-slate-600 font-medium flex items-center justify-between select-none shrink-0">
+            <span className="truncate">Browsing educational portal: <strong className="text-slate-800">{pageTitle}</strong></span>
+            <span className="font-mono text-[10px] text-slate-400 truncate max-w-[200px]">{currentUrl}</span>
           </div>
 
           {/* Secure Node/Express Educational Proxy Iframe */}
@@ -305,7 +305,7 @@ export default function BrowserView({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 380, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="w-full sm:w-[380px] h-full shadow-2xl z-10 shrink-0 relative flex flex-col bg-slate-900 border-l border-white/5"
+              className="w-full sm:w-[380px] h-full shadow-lg z-10 shrink-0 relative flex flex-col bg-white border-l border-slate-200"
             >
               {/* Active panel content */}
               {sidebarTab === 'tutor' && (
@@ -331,46 +331,46 @@ export default function BrowserView({
               )}
 
               {sidebarTab === 'notes' && (
-                <div className="flex flex-col h-full bg-slate-900 text-slate-200">
+                <div className="flex flex-col h-full bg-white text-slate-700">
                   {/* Notes Panel Header */}
-                  <div className="p-4 border-b border-white/5 flex items-center justify-between shadow-xs shrink-0 bg-slate-950">
+                  <div className="p-4 border-b border-slate-200 flex items-center justify-between shadow-xs shrink-0 bg-slate-50">
                     <div className="flex items-center gap-1.5">
-                      <FileText className="w-5 h-5 text-emerald-400" />
-                      <h3 className="font-bold text-white text-sm tracking-wide">Study Workbook</h3>
+                      <FileText className="w-5 h-5 text-slate-700" />
+                      <h3 className="font-bold text-slate-900 text-sm tracking-wide">Study Workbook</h3>
                     </div>
                     <button
                       onClick={() => setSidebarTab(null)}
-                      className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                      className="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
                     >
                       <X className="w-4 h-4" />
                     </button>
                   </div>
 
                   {/* Note Creator Form */}
-                  <div className="flex-1 overflow-y-auto p-4 space-y-5">
+                  <div className="flex-1 overflow-y-auto p-4 space-y-5 bg-white">
                     
-                    <div className="space-y-3 bg-emerald-500/5 p-4 rounded-2xl border border-emerald-500/10">
-                      <h4 className="font-bold text-emerald-400 text-[10px] uppercase tracking-widest">New Workbook Entry</h4>
+                    <div className="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                      <h4 className="font-bold text-slate-700 text-[10px] uppercase tracking-widest">New Workbook Entry</h4>
                       
                       <input
                         type="text"
                         placeholder="Study Topic Title..."
                         value={noteTitle}
                         onChange={(e) => setNoteTitle(e.target.value)}
-                        className="w-full text-xs border border-white/10 bg-black/40 rounded-xl px-3.5 py-2.5 text-slate-200 placeholder-slate-600 outline-none focus:border-emerald-500/40"
+                        className="w-full text-xs border border-slate-200 bg-white rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 outline-none focus:border-slate-400"
                       />
                       <textarea
                         placeholder="Write study summaries, formulas or notes here..."
                         value={noteContent}
                         onChange={(e) => setNoteContent(e.target.value)}
                         rows={6}
-                        className="w-full text-xs border border-white/10 bg-black/40 rounded-xl px-3.5 py-2.5 text-slate-200 placeholder-slate-600 outline-none focus:border-emerald-500/40 font-sans"
+                        className="w-full text-xs border border-slate-200 bg-white rounded-xl px-3.5 py-2.5 text-slate-800 placeholder-slate-400 outline-none focus:border-slate-400 font-sans"
                       />
                       
                       <button
                         onClick={handleSaveLocalNote}
                         disabled={!noteTitle || !noteContent || savingStatus === 'saving'}
-                        className="w-full bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold py-2.5 px-3 rounded-xl transition-all shadow-lg shadow-emerald-500/10 disabled:opacity-40 flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 px-3 rounded-xl transition-all shadow-sm disabled:opacity-40 flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         {savingStatus === 'saving' ? (
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -381,8 +381,8 @@ export default function BrowserView({
                       </button>
 
                       {savingStatus === 'saved' && (
-                        <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 p-3 rounded-xl text-[11px] flex items-center gap-1.5 leading-relaxed">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <div className="bg-slate-50 border border-slate-200 text-slate-700 p-3 rounded-xl text-[11px] flex items-center gap-1.5 leading-relaxed">
+                          <CheckCircle2 className="w-4 h-4 text-slate-600 shrink-0" />
                           <span>Saved locally and backed up to Google Drive!</span>
                         </div>
                       )}
@@ -390,33 +390,33 @@ export default function BrowserView({
 
                     {/* Local Saved Notes History */}
                     <div className="space-y-3.5">
-                      <h4 className="font-bold text-xs uppercase tracking-widest text-slate-500">My Study Entries ({savedNotes.length})</h4>
+                      <h4 className="font-bold text-xs uppercase tracking-widest text-slate-400">My Study Entries ({savedNotes.length})</h4>
                       {savedNotes.length > 0 ? (
                         <div className="space-y-3">
                           {savedNotes.map((note) => (
-                            <div key={note.id} className="p-4 bg-slate-950/60 rounded-xl border border-white/5 space-y-2.5 text-xs">
+                            <div key={note.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5 text-xs">
                               <div className="flex items-center justify-between">
-                                <h5 className="font-bold text-white tracking-wide">{note.title}</h5>
+                                <h5 className="font-bold text-slate-900 tracking-wide">{note.title}</h5>
                                 <button
                                   onClick={() => onDeleteNote(note.id)}
-                                  className="text-slate-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
+                                  className="text-slate-400 hover:text-rose-600 p-1.5 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                                   title="Delete Note"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
-                              <p className="text-slate-400 line-clamp-3 leading-relaxed font-light">{note.content}</p>
-                              <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                              <p className="text-slate-600 line-clamp-3 leading-relaxed font-light">{note.content}</p>
+                              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono">
                                 <span>{note.createdAt}</span>
                                 {note.urlContext && (
-                                  <span className="text-slate-400 truncate max-w-[150px] bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">Context active</span>
+                                  <span className="text-slate-500 truncate max-w-[150px] bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">Context active</span>
                                 )}
                               </div>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <div className="text-center py-8 text-slate-500 text-xs font-light">
+                        <div className="text-center py-8 text-slate-400 text-xs font-light">
                           Your workbook is currently empty. Start taking study notes above!
                         </div>
                       )}

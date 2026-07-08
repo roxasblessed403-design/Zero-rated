@@ -36,7 +36,7 @@ export default function App() {
       domain: domain.includes('://') ? domain : `https://${domain}`,
       category: 'resource',
       description: 'Custom portal added via your local network zero-rated rules.',
-      logo: '🎓'
+      logo: 'globe'
     };
 
     const updated = [newSite, ...customSites];
@@ -69,22 +69,19 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex flex-col relative overflow-x-hidden" id="app-root">
-      {/* Immersive Background Glow Elements */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div className="min-h-screen bg-slate-50 text-slate-700 font-sans flex flex-col relative overflow-x-hidden" id="app-root">
       
-      {/* Status Bar / Combined Dual-Tier Header */}
-      <header className="bg-slate-900/50 backdrop-blur border-b border-white/5 h-16 shrink-0 flex items-center justify-between px-6 select-none z-10" id="app-header">
+      {/* Combined Header */}
+      <header className="bg-white border-b border-slate-200 h-16 shrink-0 flex items-center justify-between px-6 select-none z-10" id="app-header">
         <div className="flex items-center gap-3">
-          <div className="bg-emerald-500/10 p-2 rounded-xl text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+          <div className="bg-slate-100 p-2 rounded-xl text-slate-700 border border-slate-200">
             <GraduationCap className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="font-bold text-white text-sm tracking-widest flex items-center gap-1 uppercase">
-              EduLink <span className="text-emerald-400 font-black">Portal</span>
+            <h1 className="font-bold text-slate-900 text-sm tracking-widest flex items-center gap-1 uppercase">
+              EduLink <span className="text-slate-500 font-black">Portal</span>
             </h1>
-            <p className="text-[9px] text-slate-400 tracking-wider font-mono uppercase">Zero-Rated Protocol Active</p>
+            <p className="text-[9px] text-slate-500 tracking-wider font-mono uppercase">Zero-Rated Protocol Active</p>
           </div>
         </div>
 
@@ -93,15 +90,15 @@ export default function App() {
           {view === 'browser' && (
             <button
               onClick={() => setView('home')}
-              className="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1 px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/15 rounded-xl border border-emerald-500/20 transition-all cursor-pointer"
+              className="text-xs text-slate-700 hover:text-slate-950 font-bold flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-all cursor-pointer"
             >
               <span>Back to Portal Home</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           )}
 
-          <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
+          <div className="flex items-center gap-2 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full text-[10px] text-slate-700 font-semibold uppercase tracking-wider">
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-500 shadow-[0_0_8px_rgba(100,116,139,0.3)] animate-pulse" />
             <span>Data-Free Whitelisted</span>
           </div>
         </div>
@@ -145,11 +142,11 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* High-Tech Immersive Footer Info Bar */}
+      {/* Modern Professional Footer Info Bar */}
       {view === 'home' && (
-        <footer className="h-12 bg-slate-900 border-t border-white/5 flex items-center justify-between px-6 select-none shrink-0 font-mono z-10" id="app-footer">
-          <div className="flex items-center gap-4 text-[10px] text-slate-500 uppercase tracking-widest">
-            <span className="text-emerald-400 font-bold">Secure Access Node</span>
+        <footer className="h-12 bg-white border-t border-slate-200 flex items-center justify-between px-6 select-none shrink-0 font-mono z-10" id="app-footer">
+          <div className="flex items-center gap-4 text-[10px] text-slate-400 uppercase tracking-widest">
+            <span className="text-slate-600 font-bold">Secure Access Node</span>
             <span className="hidden sm:inline">•</span>
             <span className="hidden sm:inline">1,024,582 Zero-Rated Endpoints Loaded</span>
             <span>•</span>
@@ -157,12 +154,12 @@ export default function App() {
           </div>
           <div className="flex items-center gap-4 font-mono">
             <div className="hidden md:flex items-center gap-2">
-              <span className="text-[10px] text-slate-500 uppercase tracking-widest">Data Saved: 142.8 MB</span>
-              <div className="h-1.5 w-20 bg-white/10 rounded-full overflow-hidden">
-                <div className="h-full w-2/3 bg-emerald-500"></div>
+              <span className="text-[10px] text-slate-400 uppercase tracking-widest">Data Saved: 142.8 MB</span>
+              <div className="h-1.5 w-20 bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full w-2/3 bg-slate-400"></div>
               </div>
             </div>
-            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">67% Optimized</span>
+            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">67% Optimized</span>
           </div>
         </footer>
       )}
