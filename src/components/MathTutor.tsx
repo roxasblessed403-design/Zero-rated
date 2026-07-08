@@ -109,16 +109,16 @@ export default function MathTutor({ currentUrl, currentTitle, onSaveAsNote }: Ma
   };
 
   return (
-    <div className="flex flex-col h-full bg-white border-l border-slate-200" id="math-tutor-panel">
+    <div className="flex flex-col h-full bg-t-surface border-l border-t-border transition-colors duration-200" id="math-tutor-panel">
       {/* Tutor Panel Header */}
-      <div className="bg-slate-50 p-4 border-b border-slate-200 flex items-center justify-between shadow-xs shrink-0">
+      <div className="bg-t-muted p-4 border-b border-t-border flex items-center justify-between shadow-xs shrink-0 transition-colors">
         <div className="flex items-center gap-2">
-          <div className="bg-slate-100 p-2 rounded-lg border border-slate-200">
-            <GraduationCap className="w-5 h-5 text-slate-700" />
+          <div className="bg-t-muted/80 p-2 rounded-lg border border-t-border transition-colors">
+            <GraduationCap className="w-5 h-5 text-t-text" />
           </div>
           <div>
-            <h3 className="font-bold text-slate-900 text-sm tracking-wide">AI Study Companion</h3>
-            <p className="text-[9px] text-slate-500 font-semibold uppercase tracking-widest flex items-center gap-0.5">
+            <h3 className="font-bold text-t-dark-text text-sm tracking-wide transition-colors">AI Study Companion</h3>
+            <p className="text-[9px] text-t-muted-text font-semibold uppercase tracking-widest flex items-center gap-0.5 transition-colors">
               Powered by Gemini AI
             </p>
           </div>
@@ -126,26 +126,26 @@ export default function MathTutor({ currentUrl, currentTitle, onSaveAsNote }: Ma
         <button
           onClick={handleResetChat}
           title="Reset conversation"
-          className="text-slate-400 hover:text-slate-700 p-1.5 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+          className="text-t-muted-text hover:text-t-text p-1.5 hover:bg-t-muted rounded-lg transition-colors cursor-pointer"
         >
           <RotateCcw className="w-4 h-4" />
         </button>
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-t-surface transition-colors">
         {currentTitle && (
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-600 leading-relaxed font-light">
-            <span className="font-bold text-slate-800">Context Node Active:</span> Synthesizing solutions directly from <em>{currentTitle}</em>.
+          <div className="bg-t-muted border border-t-border rounded-xl p-3 text-xs text-t-text leading-relaxed font-light transition-colors">
+            <span className="font-bold text-t-dark-text">Context Node Active:</span> Synthesizing solutions directly from <em>{currentTitle}</em>.
           </div>
         )}
 
         {messages.map((msg) => (
           <div key={msg.id} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'} space-y-1`}>
-            <div className={`max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed ${
+            <div className={`max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed transition-colors duration-150 ${
               msg.sender === 'user'
-                ? 'bg-slate-100 text-slate-800 border border-slate-200 rounded-br-none'
-                : 'bg-white text-slate-700 rounded-bl-none border border-slate-200 shadow-xs'
+                ? 'bg-t-muted text-t-text border border-t-border rounded-br-none'
+                : 'bg-t-surface text-t-text rounded-bl-none border border-t-border shadow-xs'
             }`}>
               {/* Parse rudimentary markdown bullets or formulas */}
               <div className="whitespace-pre-line font-sans font-light">
@@ -153,10 +153,10 @@ export default function MathTutor({ currentUrl, currentTitle, onSaveAsNote }: Ma
               </div>
 
               {msg.sender === 'tutor' && msg.id !== 'welcome' && (
-                <div className="mt-3.5 pt-2.5 border-t border-slate-100 flex justify-end">
+                <div className="mt-3.5 pt-2.5 border-t border-t-border flex justify-end transition-colors">
                   <button
                     onClick={() => handleSaveTutorNote(msg.text)}
-                    className="flex items-center gap-1 text-[11px] font-semibold text-slate-700 hover:text-slate-950 hover:bg-slate-50 border border-slate-200 px-2.5 py-1 rounded transition-all cursor-pointer"
+                    className="flex items-center gap-1 text-[11px] font-semibold text-t-text hover:text-t-dark-text hover:bg-t-muted border border-t-border px-2.5 py-1 rounded transition-all cursor-pointer"
                     title="Export explanation to study notes"
                   >
                     <Save className="w-3.5 h-3.5" />
@@ -165,23 +165,23 @@ export default function MathTutor({ currentUrl, currentTitle, onSaveAsNote }: Ma
                 </div>
               )}
             </div>
-            <span className="text-[9px] text-slate-400 px-1 font-mono">{msg.timestamp}</span>
+            <span className="text-[9px] text-t-muted-text px-1 font-mono transition-colors">{msg.timestamp}</span>
           </div>
         ))}
 
         {isSending && (
-          <div className="flex items-center gap-2 text-slate-500 text-xs bg-slate-50 border border-slate-200 rounded-xl p-3.5 w-fit shadow-xs">
-            <Loader2 className="w-4 h-4 animate-spin text-slate-600" />
+          <div className="flex items-center gap-2 text-t-text bg-t-muted border border-t-border rounded-xl p-3.5 w-fit shadow-xs transition-colors">
+            <Loader2 className="w-4 h-4 animate-spin text-t-text" />
             <span>AI Tutor is analyzing your curriculum...</span>
           </div>
         )}
 
         {error && (
-          <div className="bg-rose-50 border border-rose-200 text-rose-800 rounded-xl p-3.5 text-xs flex gap-2 items-start leading-relaxed">
-            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+          <div className="bg-rose-950/10 border border-rose-900/30 text-rose-300 rounded-xl p-3.5 text-xs flex gap-2 items-start leading-relaxed transition-colors">
+            <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
             <div>
-              <p className="font-bold text-rose-800">AI Tutor Offline</p>
-              <p className="text-[11px] mt-0.5 text-rose-600">{error}</p>
+              <p className="font-bold text-rose-400">AI Tutor Offline</p>
+              <p className="text-[11px] mt-0.5 text-rose-300/80">{error}</p>
             </div>
           </div>
         )}
@@ -190,7 +190,7 @@ export default function MathTutor({ currentUrl, currentTitle, onSaveAsNote }: Ma
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSendMessage} className="p-3.5 bg-slate-50 border-t border-slate-200 shrink-0">
+      <form onSubmit={handleSendMessage} className="p-3.5 bg-t-muted border-t border-t-border shrink-0 transition-colors">
         <div className="flex gap-2">
           <input
             type="text"
@@ -198,12 +198,12 @@ export default function MathTutor({ currentUrl, currentTitle, onSaveAsNote }: Ma
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             disabled={isSending}
-            className="flex-1 bg-white border border-slate-200 text-slate-800 placeholder-slate-400 rounded-xl px-3.5 py-2.5 text-xs focus:border-slate-400 outline-none disabled:opacity-60"
+            className="flex-1 bg-t-surface border border-t-border text-t-text placeholder-t-muted-text/70 rounded-xl px-3.5 py-2.5 text-xs focus:border-t-text outline-none disabled:opacity-60 transition-colors"
           />
           <button
             type="submit"
             disabled={!inputValue.trim() || isSending}
-            className="bg-slate-900 hover:bg-slate-800 text-white font-extrabold p-2.5 rounded-xl transition-all flex items-center justify-center shadow-xs disabled:opacity-40 shrink-0 cursor-pointer"
+            className="bg-t-accent hover:bg-t-hover text-t-surface font-semibold p-2.5 rounded-xl transition-all flex items-center justify-center shadow-xs disabled:opacity-40 shrink-0 cursor-pointer"
           >
             <Send className="w-4 h-4" />
           </button>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PortalHome from './components/PortalHome';
 import BrowserView from './components/BrowserView';
 import { ZeroRatedSite, SavedNote } from './types';
-import { GraduationCap, ShieldCheck, FileText, ChevronRight, BookOpen } from 'lucide-react';
+import { GraduationCap, ShieldCheck, FileText, ChevronRight, BookOpen, Sun, Moon, Palette, Contrast } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
@@ -10,6 +10,9 @@ export default function App() {
   const [activeUrl, setActiveUrl] = useState('https://learn.siyavula.com');
   const [customSites, setCustomSites] = useState<ZeroRatedSite[]>([]);
   const [savedNotes, setSavedNotes] = useState<SavedNote[]>([]);
+  const [theme, setTheme] = useState<'white' | 'sepia' | 'blackwhite' | 'dark'>(() => {
+    return (localStorage.getItem('zerorated_theme') as any) || 'white';
+  });
 
   // Load custom shortcuts and saved workbooks from localStorage on mount
   useEffect(() => {
@@ -23,6 +26,10 @@ export default function App() {
       try { setSavedNotes(JSON.parse(cachedNotes)); } catch (e) { console.error(e); }
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('zerorated_theme', theme);
+  }, [theme]);
 
   const handleLaunchSite = (url: string) => {
     setActiveUrl(url);
@@ -69,37 +76,66 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-700 font-sans flex flex-col relative overflow-x-hidden" id="app-root">
+    <div className="min-h-screen bg-t-bg text-t-text font-sans flex flex-col relative overflow-x-hidden transition-colors duration-200" id="app-root" data-theme={theme}>
       
       {/* Combined Header */}
-      <header className="bg-white border-b border-slate-200 h-16 shrink-0 flex items-center justify-between px-6 select-none z-10" id="app-header">
+      <header className="bg-t-surface border-b border-t-border h-16 shrink-0 flex items-center justify-between px-6 select-none z-10 transition-colors duration-200" id="app-header">
         <div className="flex items-center gap-3">
-          <div className="bg-slate-100 p-2 rounded-xl text-slate-700 border border-slate-200">
+          <div className="bg-t-muted p-2 rounded-xl text-t-dark-text border border-t-border transition-colors">
             <GraduationCap className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="font-bold text-slate-900 text-sm tracking-widest flex items-center gap-1 uppercase">
-              EduLink <span className="text-slate-500 font-black">Portal</span>
+            <h1 className="font-bold text-t-dark-text text-sm tracking-widest flex items-center gap-1 uppercase transition-colors">
+              EduLink <span className="text-t-muted-text font-black transition-colors">Portal</span>
             </h1>
-            <p className="text-[9px] text-slate-500 tracking-wider font-mono uppercase">Zero-Rated Protocol Active</p>
+            <p className="text-[9px] text-t-muted-text tracking-wider font-mono uppercase transition-colors">Zero-Rated Protocol Active</p>
           </div>
         </div>
 
-        {/* Global Connection & Navigation Controls */}
-        <div className="flex items-center gap-4">
+        {/* Global Connection & Navigation Controls & Theme Selector */}
+        <div className="flex items-center gap-3 md:gap-5">
           {view === 'browser' && (
             <button
               onClick={() => setView('home')}
-              className="text-xs text-slate-700 hover:text-slate-950 font-bold flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-all cursor-pointer"
+              className="text-xs text-t-text hover:text-t-dark-text font-bold flex items-center gap-1 px-3 py-1.5 bg-t-muted hover:bg-t-muted/80 rounded-xl border border-t-border transition-all cursor-pointer"
             >
               <span>Back to Portal Home</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           )}
 
-          <div className="flex items-center gap-2 bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full text-[10px] text-slate-700 font-semibold uppercase tracking-wider">
-            <div className="w-1.5 h-1.5 rounded-full bg-slate-500 shadow-[0_0_8px_rgba(100,116,139,0.3)] animate-pulse" />
-            <span>Data-Free Whitelisted</span>
+          {/* Elegant Segmented Color Theme Switcher */}
+          <div className="flex items-center gap-1 bg-t-muted p-1 rounded-xl border border-t-border select-none transition-colors">
+            {[
+              { id: 'white', label: 'White', icon: Sun },
+              { id: 'sepia', label: 'Sepia', icon: Palette },
+              { id: 'blackwhite', label: 'B&W', icon: Contrast },
+              { id: 'dark', label: 'Dark', icon: Moon }
+            ].map((t) => {
+              const IconComponent = t.icon;
+              const isSelected = theme === t.id;
+              return (
+                <button
+                  key={t.id}
+                  id={`theme-btn-${t.id}`}
+                  onClick={() => setTheme(t.id as any)}
+                  className={`px-2 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all duration-150 cursor-pointer ${
+                    isSelected 
+                      ? 'bg-t-accent text-t-surface shadow-xs font-bold' 
+                      : 'text-t-muted-text hover:text-t-dark-text hover:bg-t-muted/50'
+                  }`}
+                  title={`${t.label} Mode`}
+                >
+                  <IconComponent className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">{t.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="hidden sm:flex items-center gap-2 bg-t-muted border border-t-border px-3.5 py-1.5 rounded-full text-[10px] text-t-text font-semibold uppercase tracking-wider transition-colors">
+            <div className="w-1.5 h-1.5 rounded-full bg-t-text animate-pulse" />
+            <span>Data-Free</span>
           </div>
         </div>
       </header>
@@ -144,22 +180,22 @@ export default function App() {
 
       {/* Modern Professional Footer Info Bar */}
       {view === 'home' && (
-        <footer className="h-12 bg-white border-t border-slate-200 flex items-center justify-between px-6 select-none shrink-0 font-mono z-10" id="app-footer">
-          <div className="flex items-center gap-4 text-[10px] text-slate-400 uppercase tracking-widest">
-            <span className="text-slate-600 font-bold">Secure Access Node</span>
+        <footer className="h-12 bg-t-surface border-t border-t-border flex items-center justify-between px-6 select-none shrink-0 font-mono z-10 transition-colors" id="app-footer">
+          <div className="flex items-center gap-4 text-[10px] text-t-muted-text uppercase tracking-widest transition-colors">
+            <span className="text-t-text font-bold">Secure Access Node</span>
             <span className="hidden sm:inline">•</span>
             <span className="hidden sm:inline">1,024,582 Zero-Rated Endpoints Loaded</span>
             <span>•</span>
-            <span className="text-slate-400">Latency: 14ms</span>
+            <span className="text-t-muted-text">Latency: 14ms</span>
           </div>
-          <div className="flex items-center gap-4 font-mono">
+          <div className="flex items-center gap-4 font-mono transition-colors">
             <div className="hidden md:flex items-center gap-2">
-              <span className="text-[10px] text-slate-400 uppercase tracking-widest">Data Saved: 142.8 MB</span>
-              <div className="h-1.5 w-20 bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full w-2/3 bg-slate-400"></div>
+              <span className="text-[10px] text-t-muted-text uppercase tracking-widest">Data Saved: 142.8 MB</span>
+              <div className="h-1.5 w-20 bg-t-muted rounded-full overflow-hidden transition-colors">
+                <div className="h-full w-2/3 bg-t-accent transition-colors"></div>
               </div>
             </div>
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">67% Optimized</span>
+            <span className="text-[10px] font-bold text-t-text uppercase tracking-wider transition-colors">67% Optimized</span>
           </div>
         </footer>
       )}

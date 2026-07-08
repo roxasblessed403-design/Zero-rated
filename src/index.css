@@ -1,1 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-t-bg: var(--bg-base);
+  --color-t-surface: var(--bg-surface);
+  --color-t-muted: var(--bg-muted);
+  --color-t-text: var(--text-main);
+  --color-t-muted-text: var(--text-muted);
+  --color-t-dark-text: var(--text-dark);
+  --color-t-border: var(--border-main);
+  --color-t-accent: var(--accent-main);
+  --color-t-hover: var(--accent-hover);
+}
+
+/* Base Light Theme (White) */
+:root, [data-theme="white"] {
+  --bg-base: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-muted: #f1f5f9;
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --text-dark: #0f172a;
+  --border-main: #e2e8f0;
+  --accent-main: #0f172a;
+  --accent-hover: #1e293b;
+}
+
+/* Sepia Theme */
+[data-theme="sepia"] {
+  --bg-base: #f4ecd8;
+  --bg-surface: #fdf6e3;
+  --bg-muted: #eae0c9;
+  --text-main: #433422;
+  --text-muted: #705e47;
+  --text-dark: #2c1d11;
+  --border-main: #decfa8;
+  --accent-main: #5c4033;
+  --accent-hover: #4a3229;
+}
+
+/* Black & White Theme (Monochrome) */
+[data-theme="blackwhite"] {
+  --bg-base: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-muted: #f3f4f6;
+  --text-main: #1f2937;
+  --text-muted: #4b5563;
+  --text-dark: #111827;
+  --border-main: #d1d5db;
+  --accent-main: #000000;
+  --accent-hover: #374151;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-base: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-muted: #334155;
+  --text-main: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-dark: #f8fafc;
+  --border-main: #334155;
+  --accent-main: #cbd5e1;
+  --accent-hover: #f1f5f9;
+}
+
